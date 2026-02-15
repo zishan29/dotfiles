@@ -1,0 +1,124 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 34,
+  "margin-top": 8,
+  "margin-left": 10,
+  "margin-right": 10,
+
+  "modules-left": [
+    "hyprland/workspaces"
+  ],
+
+  "modules-center": [
+    "custom/media"
+  ],
+
+  "modules-right": [
+    "cpu",
+    "memory",
+    "network",
+    "pulseaudio#microphone",
+    "group/audio",
+    "clock",
+    "custom/power"
+  ],
+
+  "hyprland/workspaces": {
+    "format": "{name}",
+    "on-click": "activate"
+  },
+
+  "cpu": {
+    "format": " {usage}%"
+  },
+
+  "memory": {
+    "format": " {percentage}%"
+  },
+
+  "clock": {
+    "format": "{:%H:%M  %d/%m}"
+  },
+
+  "group/audio": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 400,
+      "children-class": "audio",
+      "transition-left-to-right": false
+    },
+    "modules": ["pulseaudio", "pulseaudio/slider"]
+  },
+
+  "pulseaudio": {
+    "interval": 1,
+    "format": "{icon}",
+    "format-muted": "<span size='14pt' font='Material Icons Sharp'>volume_off</span>",
+    "format-icons": {
+      "headphone": "<span size='14pt' font='Material Icons Sharp'>headphones</span>",
+      // For my Airpods Pro (find your device name with `pactl list sinks`)
+      "bluez_output.70_AE_D5_BA_99_AB.1": "󱡏",
+      "hands-free": "<span size='14pt' font='Material Icons Sharp'>headset_mic</span>",
+      "headset": "<span size='14pt' font='Material Icons Sharp'>headphones</span>",
+      "headset-muted": "<span size='14pt' font='Material Icons Sharp'>headset_off</span>",
+      "default": [
+        "<span size='14pt' font='Material Icons Sharp'>volume_mute</span>",
+        "<span size='14pt' font='Material Icons Sharp'>volume_down</span>",
+        "<span size='14pt' font='Material Icons Sharp'>volume_up</span>"
+      ]
+    },
+    "on-click-right": "pavucontrol",
+    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+    "on-scroll-up": "",
+    "on-scroll-down": "",
+    // "reverse-scrolling": true,
+    "tooltip": true,
+    "tooltip-format": "Volume: {volume}%\n{desc}",
+    "ignored-sinks": ["Easy Effects Sink"]
+  },
+
+  "pulseaudio#microphone": {
+    "format": "{format_source}",
+    "format-source": "<span size='13.5pt' font='Material Icons Sharp'>mic</span>",
+    "format-source-muted": "<span size='13.5pt' font='Material Icons Sharp'>mic_off</span>",
+    "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+    "tooltip": false
+  },
+
+  "network": {
+    "format-icons": {
+      "wifi": [
+        "<span size='12pt' font='Material Icons Sharp'>network_wifi_1_bar</span>",
+        "<span size='12pt' font='Material Icons Sharp'>network_wifi_2_bar</span>",
+        "<span size='12pt' font='Material Icons Sharp'>network_wifi_3_bar</span>",
+        "<span size='12pt' font='Material Icons Sharp'>signal_wifi_4_bar</span>"
+      ],
+      "ethernet": "<span size='12pt' font='Material Icons Sharp'>lan</span>",
+      "disabled": "<span size='12pt' font='Material Icons Sharp'>signal_wifi_off</span>",
+      "disconnected": "<span size='12pt' font='Material Icons Sharp'>signal_wifi_bad</span>"
+    },
+    "format-wifi": "{icon}",
+    "format-ethernet": "{icon} Wired",
+    "format-disconnected": "{icon}",
+    "format-disabled": "{icon}",
+    "interval": 5,
+    "tooltip-format": "{essid}\t{gwaddr}\n{bandwidthUpBytes} 󰁝\t{bandwidthDownBytes} 󰁅",
+    "on-click": "rfkill toggle wifi",
+    "on-click-right": "kitty -e nmtui",
+    "tooltip": true,
+    "max-length": 20
+  },
+
+  "custom/media": {
+    "exec": "playerctl metadata --format '{{title}}' 2>/dev/null",
+    "interval": 5
+  },
+
+  "custom/power": {
+    "format": "<span size='14pt' font='Material Icons Sharp'>power_settings_new</span>",
+    "on-click": "wlogout --protocol layer-shell -b 2",
+    "tooltip": false
+  }
+}
+
