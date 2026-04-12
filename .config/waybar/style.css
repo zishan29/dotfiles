@@ -1,68 +1,206 @@
+@import "colors.css";
+
+/* ============================================
+   GLOBAL STYLES
+   ============================================ */
 * {
-  font-family: "JetBrainsMono Nerd Font";
-  font-size: 13px;
-  font-weight: 500;
-  border: none;
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 14px;
+    font-weight: 500;
+    min-height: 0;
 }
 
 window#waybar {
-  background: rgb(15, 15, 20);
-  border-radius: 58px;
-  padding: 4px;
-  box-shadow: 0px 8px 30px rgba(0, 0, 0, 0.45);
+    background: @surface_alpha;
+    color: @on_surface;
 }
 
-#workspaces,
-#cpu,
-#memory,
-#battery,
-#network,
-#pulseaudio,
-#pulseaudio-slider,
-#clock,
-#custom-power {
-  background: rgba(30, 30, 40, 0.85);
-  padding: 6px 14px;
-  transition: 0.2s ease;
-  color: #ffffff;
+/* ============================================
+   LEFT SIDE MODULES
+   Color pattern: secondary → tertiary → secondary → tertiary → secondary
+   (cpu → memory-gpu → network → temp → disk)
+   ============================================ */
+
+#custom-launcher {
+    background: @primary;
+    color: @on_primary;
+    padding: 5px 10px;
+    margin: 5px 0 5px 5px;
+    border-radius: 16px;
 }
+
+/* Shared base styles for left modules */
+#cpu,
+#custom-memory-gpu,
+#network,
+#temperature,
+#custom-disk {
+    background: @surface_container_highest;
+    color: @on_surface;
+    padding: 5px 12px;
+    margin: 5px 2px;
+    border-radius: 16px;
+}
+
+/* Alternating colors - Pattern: secondary, tertiary */
+#cpu {
+    color: @secondary;
+}
+
+#custom-memory-gpu {
+    color: @tertiary;
+}
+
+#network {
+    color: @secondary;
+}
+
+#temperature {
+    color: @tertiary;
+}
+
+#custom-disk {
+    color: @secondary;
+}
+
+#custom-wallpaper {
+    background: @primary;
+    color: @surface_container_high;
+    padding: 5px 10px;
+    margin: 5px 2px;
+    border-radius: 16px;
+}
+
+/* ============================================
+   CENTER MODULES
+   ============================================ */
 
 #workspaces {
-  border-radius: 14px;
+    background: transparent;
+    margin: 5px;
 }
 
 #workspaces button {
-  background: transparent;
-  padding: 0 8px;
-  border-radius: 10px;
-  color: #ffffff;
+    background: @surface_container_highest;
+    color: @outline;
+    padding: 5px 7px;
+    margin: 0 2px;
+    border-radius: 16px;
+    border: none;
+    box-shadow: none;
+    transition: all 0.3s ease;
 }
 
-#workspaces button.active {
-  background: rgba(150, 100, 255, 0.6);
-}
-
-#custom-power {
-  color: #ff5e5e;
-}
-
-#pulseaudio-slider slider {
-    min-height: 0px;
-    min-width: 0px;
-    background: transparent;
+#workspaces button:hover {
+    background: @surface_container_highest;
+    color: @on_surface;
+    font-weight: 700;
+    border: none;
     box-shadow: none;
 }
 
-#pulseaudio-slider trough {
-    min-height: 6px;
-    min-width: 100px;
-    border-radius: 4px;
-    background-color: rgba(0, 0, 0, 0.2);
+#workspaces button.active {
+    background: @primary;
+    padding: 5px 15px;
+    color: @on_primary;
+    font-weight: 700;
 }
 
-#pulseaudio-slider highlight {
-    min-width: 6px;
-    min-height: 6px;
-    border-radius: 4px;
-    background: rgb(255, 255, 255); 
+#workspaces button.active:hover {
+    background: @primary;
+    color: @on_primary;
+    font-weight: 700;
+}
+
+#custom-notification,
+#mpris {
+    background: @primary;
+    color: @surface_container_high;
+    padding: 5px 10px;
+    margin: 5px 0 5px 0px;
+    border-radius: 16px;
+}
+
+/* ============================================
+   RIGHT SIDE MODULES
+   Color pattern: secondary → tertiary → secondary → tertiary → secondary
+   (ime → clock → weather → pulseaudio → wifi)
+   ============================================ */
+
+/* Shared base styles for right modules */
+#custom-ime,
+#clock,
+#custom-weather,
+#pulseaudio,
+#network.wifi {
+    background: @surface_container_highest;
+    color: @on_surface;
+    padding: 5px 12px;
+    margin: 5px 2px;
+    border-radius: 16px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 9px;
+    padding-right: 12px;
+}
+
+/* Alternating colors - Pattern: secondary, tertiary */
+#custom-ime {
+    color: @secondary;
+    font-weight: 600;
+}
+
+#clock {
+    color: @tertiary;
+    font-weight: 600;
+}
+
+#custom-weather {
+    color: @secondary;
+}
+
+#pulseaudio {
+    color: @tertiary;
+}
+
+#pulseaudio.muted {
+    color: @tertiary;
+}
+
+#custom-quick-actions {
+    background: @primary;
+    color: @surface_container_high;
+    padding: 5px 10px;
+    margin: 5px 0 5px 5px;
+    border-radius: 16px;
+}
+
+/* ============================================
+   SPECIAL MODULES (isolated colors)
+   ============================================ */
+
+#custom-power {
+    background: @error;
+    color: @on_error;
+    padding: 5px 12px;
+    margin: 5px 5px 5px 0px;
+    border-radius: 16px;
+}
+
+/* ============================================
+   TOOLTIPS
+   ============================================ */
+
+tooltip {
+    background: @surface_container;
+    border: 2px solid @primary;
+    border-radius: 16px;
+    color: @on_surface;
+}
+
+tooltip label {
+    color: @on_surface;
+    padding: 5px;
 }
